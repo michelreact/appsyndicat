@@ -99,7 +99,7 @@ class ProfilModal extends Component {
                     visible = { this.props.afficherProfilModal }
                     onRequestClose={() => {
                     }}>
-                    <ScrollView>
+                    <ScrollView keyboardShouldPersistTaps = "always">
                     { /* FERMER MODAL */ }
                         <TouchableOpacity
                             style={styles.toucheFermerModal}

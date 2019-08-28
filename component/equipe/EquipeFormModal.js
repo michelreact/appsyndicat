@@ -76,7 +76,7 @@ class EquipeFormModal extends Component {
                     visible = { this.props.afficherFormModal }
                     onRequestClose={() => {
                     }}> 
-                    <ScrollView>
+                    <ScrollView keyboardShouldPersistTaps = "always">
                         <TouchableOpacity
                             style={styles.toucheFermerModal}
                             onPress={this.closeFormModal}

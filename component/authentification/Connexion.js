@@ -152,7 +152,7 @@ export default class Connexion extends Component {
         }
 
         return(
-            <ScrollView style={styles.container} behavior="padding">
+            <ScrollView style={styles.container} keyboardShouldPersistTaps = "always" behavior="padding">
                 <Text></Text>
                 <Text></Text>
                 {/* SE CONNECTER */}

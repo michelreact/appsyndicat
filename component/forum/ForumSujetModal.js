@@ -33,7 +33,7 @@ class ForumSujetModal extends Component {
                     visible = { false }
                     onRequestClose={() => {
                     }}> 
-                    <ScrollView>
+                    <ScrollView keyboardShouldPersistTaps = "always">
                         <TouchableOpacity
                             style={styles.toucheFermerModal}
                             onPress={this.bouttonPresser}

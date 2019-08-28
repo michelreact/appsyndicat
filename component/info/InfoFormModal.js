@@ -38,7 +38,7 @@ class InfoFormModal extends Component {
                     visible = { this.props.afficherFormModal }
                     onRequestClose={() => {
                     }}> 
-                    <ScrollView>
+                    <ScrollView keyboardShouldPersistTaps = "always">
                         <TouchableOpacity
                             style={styles.toucheFermerModal}
                             onPress={this.bouttonPresser}
