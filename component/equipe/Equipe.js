@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Button, TouchableOpacity, Image, WebView, ScrollView } from 'react-native'
+import { StyleSheet, View, Text, Button, TouchableOpacity, Image, WebView, ScrollView, Alert } from 'react-native'
 // firebase
 import base from '../base/base'
 import { auth } from '../base/base'
@@ -158,14 +158,30 @@ class Equipe extends Component {
 
     // supprimer equipier
     supprimerEquipier = (id, imageName) => {
-        // supprimer equipier database
-        const equipes = { ...this.state.equipes }
-        equipes[id] = null
-        this.setState({ equipes })
-        // supprimer la photo du storage si il y en a une
-        if (imageName) {
-            storage.ref(`${syndicat}/${imageName}`).delete()
-        }
+        // alert confirmation
+        Alert.alert(
+            'Alert',
+            'es-tu sur de vouloir supprimer',
+            [
+                {},
+                {
+                    text: 'non',
+                    onPress: () => {},
+                    style: 'cancel',
+                },
+                {text: 'oui', onPress: () => {
+                    // supprimer equipier database
+                    const equipes = { ...this.state.equipes }
+                    equipes[id] = null
+                    this.setState({ equipes })
+                    // supprimer la photo du storage si il y en a une
+                    if (imageName) {
+                        storage.ref(`${syndicat}/${imageName}`).delete()
+                    }
+                }},
+            ],
+            {cancelable: false}
+        );
     }
 
     // deconnecter base usagers

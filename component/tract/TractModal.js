@@ -76,6 +76,7 @@ class TractModal extends Component {
                             <Text></Text>
                             <Button
                                 title='Sauvegarder'
+                                color='red'
                                 onPress={this.bouttonSauvegarder}
                             />
                         </View>
