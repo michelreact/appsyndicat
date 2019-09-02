@@ -69,8 +69,8 @@ class ForumSujetModal extends Component {
                                 onPress={this.sauvegarderForum}
                             />
                         </View>
+                        <View style={{ height: 600 }}/>
                     </ScrollView>
-                    <View style={{ height: 600 }}/>
                 </Modal> 
             </View>
         )

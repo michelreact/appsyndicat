@@ -135,12 +135,12 @@ class Equipe extends Component {
             // si il y a une photo
             if (equipePhotoProvisoire) {
                 storage.ref(`${syndicat}/${equipePhotoProvisoire}`).getDownloadURL().then(url => {
-                    equipes[id] = { nom: equipeNom, fonction: equipeFonction, photo: equipePhotoProvisoire, url: equipeUrlPhotoProvisoire }
+                    equipes[id] = { nom: equipeNom, fonction: equipeFonction, photo: equipePhotoProvisoire, url: url }
                     this.setState({equipes, afficherFormModal:false, equipeNom: '', equipeFonction: '', equipeId: '', equipePhotoProvisoire: '', equipeUrlPhotoProvisoire: '' })
                 })
             // il n y a pas de photo
             }else {
-                equipes[id] = { nom: equipeNom, fonction: equipeFonction, photo: equipePhotoProvisoire, url: equipeUrlPhotoProvisoire }
+                equipes[id] = { nom: equipeNom, fonction: equipeFonction, photo: equipePhotoProvisoire, url: '' }
                 this.setState({equipes, afficherFormModal:false, equipeNom: '', equipeFonction: '', equipeId: '' })
             }
         }

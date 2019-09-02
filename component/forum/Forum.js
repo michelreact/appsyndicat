@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Button, TouchableOpacity, Image, WebView, ScrollView } from 'react-native'
+import { StyleSheet, View, Text, Button, TouchableOpacity, Image, WebView, ScrollView, Alert } from 'react-native'
 // firebase
 import base from '../base/base'
 import { auth } from '../base/base'
@@ -11,6 +11,7 @@ import syndicat from '../syndicat/Syndicat'
 import ForumSujetModal from './ForumSujetModal'
 import ForumSingleModal from './ForumSingleModal'
 import ForumNewSujetModal from './ForumNewSujetModal'
+import TitreRouge from '../elements/TitreRouge';
 
 class Forum extends Component {
     state = {
@@ -145,6 +146,53 @@ class Forum extends Component {
         }
     }
 
+    // supprimer le chat
+    bouttonSupprimerChat = (key) => {
+        // alert confirmation
+        Alert.alert(
+            'Alert',
+            'es-tu sur de vouloir supprimer le sujet ?',
+            [
+                {},
+                {
+                    text: 'non',
+                    onPress: () => {},
+                    style: 'cancel',
+                },
+                {text: 'oui', onPress: () => {
+                    // supprimer le sujet database
+                    const forums = { ...this.state.forums }
+                    forums[key] = null
+                    this.setState({ forums })
+                }},
+            ],
+            {cancelable: false}
+        );
+    }
+
+    supprimerMessage = (key,i) => {
+        // alert confirmation
+        Alert.alert(
+            'Alert',
+            'es-tu sur de vouloir supprimer le message',
+            [
+                {},
+                {
+                    text: 'non',
+                    onPress: () => {},
+                    style: 'cancel',
+                },
+                {text: 'oui', onPress: () => {
+                    const forums = { ...this.state.forums }
+                    let test = forums[key].messages[i].message
+                    forums[key].messages[i] = null
+                    this.setState({ forums })
+                }},
+            ],
+            {cancelable: false}
+        );
+    }
+
     // deconnecter base usagers
     componentWillUnmount () {
         base.removeBinding(this.ref, this.ref2)
@@ -187,13 +235,21 @@ class Forum extends Component {
             return <Text>Tu dois être elu pour consulter cette page</Text>
         }
 
+        // si admin
+        // si admin
+        let admin = false
+        let recupadmin = Object.keys(usagers).filter(key => key === usagerId).map(key => usagers[key].admin)
+        if (String(recupadmin) === 'true') {
+            admin = true
+        }
+
         // list
         const list = Object.keys(forums).reverse().map(key => 
+            <View key={key} style={styles.listView} >
                 <TouchableOpacity 
-                    key={key} 
                     // CLICK SUR UN ELEMENT DE LA LISTE
                     onPress={() => this.openSingleModal(key, forums[key].sujet)}
-                    style={styles.listView}>
+                    >
                     { /* SUJET MESSAGE */ }
                     <Text>{forums[key].sujet}</Text>
                     <View style={styles.auteurDateView}>
@@ -207,6 +263,12 @@ class Forum extends Component {
                         </View>
                     </View>
                 </TouchableOpacity>
+                {admin?
+                <TouchableOpacity onPress={() => this.bouttonSupprimerChat(key)}>
+                <TitreRouge titre='supprimer le sujet'/>
+                </TouchableOpacity>
+                : null }
+            </View>
             )
 
 
@@ -242,6 +304,7 @@ class Forum extends Component {
                     sujet={sujet}
                     forums={forums}
                     forumId={forumId}
+                    supprimerMessage={this.supprimerMessage}
                 />
                 <ForumNewSujetModal
                     afficherNewSujetModal={this.state.afficherNewSujetModal}

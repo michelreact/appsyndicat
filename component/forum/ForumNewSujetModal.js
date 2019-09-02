@@ -78,6 +78,7 @@ class ForumNewSujetModal extends Component {
                                 onPress={this.sauvegarderForum}
                             />
                         </View>
+                        <View style={{ height: 600 }} />
                     </ScrollView>
                 </Modal> 
             </View>
@@ -114,3 +115,4 @@ const styles = StyleSheet.create({
         textAlignVertical: 'top'
     },
 })
+

@@ -66,7 +66,7 @@ export default class Connexion extends Component {
         // si connecter est deja afficher
         return new Promise(
             (resolve, reject) => {
-              auth.signInWithEmailAndPassword(mail, motDePasse).then(
+              auth.signInWithEmailAndPassword(mail.trim(), motDePasse).then(
                 () => {
                   resolve();
                     alert('tu es maintenant connecter')
@@ -89,7 +89,7 @@ export default class Connexion extends Component {
         return new Promise(
             (resolve, reject) => {
             // creation et sauvegarde du compte usager
-              auth.createUserWithEmailAndPassword(mail, motDePasse)
+              auth.createUserWithEmailAndPassword(mail.trim(), motDePasse)
                 .then(() => {
                     firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
@@ -114,7 +114,7 @@ export default class Connexion extends Component {
                 },
                 (error) => {
                   reject(error);
-                  alert('impossible de se connecter')
+                  alert('impossible de se connecter'+ error)
                 }
               );
             }
@@ -124,10 +124,24 @@ export default class Connexion extends Component {
         }
     }
 
+    // boutton test
+    bouttonPasswordOublier = () => {
+        firebase.auth().sendPasswordResetEmail(this.state.mail)
+            .then(
+                () => {
+                    alert('vas sur ta messagerie pour ton nouveau mot de passe')
+                },
+                (error) => {
+                    alert('renseigne ton email')
+                }
+            );
+    }
+
     // se deconnecter
     bouttonDeconnection = () => {
         auth.signOut()
     }
+
 
     render() {
         const { seConnecter, mail, motDePasse, connecter, creerUnCompte, prenom, nom, telephone, adresse, redirectionHome } = this.state
@@ -152,7 +166,7 @@ export default class Connexion extends Component {
         }
 
         return(
-            <ScrollView style={styles.container} keyboardShouldPersistTaps = "always" behavior="padding">
+            <ScrollView style={styles.container} keyboardShouldPersistTaps = "always">
                 <Text></Text>
                 <Text></Text>
                 {/* SE CONNECTER */}
@@ -186,6 +200,12 @@ export default class Connexion extends Component {
                         title='valider'
                         color='red'
                         onPress={this.bouttonConnexion}
+                    />
+                    <Text></Text>
+                    <Button
+                        title='mot de passe oublié'
+                        color='green'
+                        onPress={this.bouttonPasswordOublier}
                     />
                 </View>
                 :null}
@@ -274,7 +294,6 @@ const styles = StyleSheet.create({
     container: {
         marginLeft: 30,
         marginRight: 30,
-        marginBottom: 80,
     },
     inputContainer: {
         borderLeftWidth: 1,

@@ -52,6 +52,11 @@ class ForumSingleModal extends Component {
         this.props.repondreForum()
     }
 
+    // boutton supprimer message
+    bouttonSupprimerMessage = (e,i) => {
+        this.props.supprimerMessage(e,i)
+    }
+
     // deconnecter base usagers
     componentWillUnmount () {
         base.removeBinding(this.ref, this.ref2)
@@ -65,6 +70,7 @@ class ForumSingleModal extends Component {
             forumId,
         } = this.props
 
+
         // liste des messages
         const list = Object
             .keys(forums)
@@ -72,8 +78,7 @@ class ForumSingleModal extends Component {
             .map(key =>
                 <View key={key}>
                 {forums[key].messages
-                    .reverse()
-                    .map(ite =>
+                    .map((ite, index) =>
                         <View key={ite.message} style={styles.listView}>
                             <Text>{ite.message}</Text>
                             <View style={styles.auteurDateView}>
@@ -84,6 +89,9 @@ class ForumSingleModal extends Component {
                                     <Text style={styles.date}>{ite.date}</Text>
                                 </View>
                             </View>
+                            <TouchableOpacity onPress={() => this.bouttonSupprimerMessage(key,index)}>
+                                <TitreRouge titre='supprimer le message'/>
+                            </TouchableOpacity>
                         </View>
                     )}
                 </View>)
@@ -96,6 +104,7 @@ class ForumSingleModal extends Component {
                     visible = { this.props.afficherSingleModal }
                     onRequestClose={() => {
                     }}> 
+                    <ScrollView>
                     <View>
                         { /* FERMER MODAL */ }
                         <TouchableOpacity
@@ -112,7 +121,7 @@ class ForumSingleModal extends Component {
                                 onChangeText={(text) => this.messageReponse(text)}
                                 value={this.props.messageRetour}
                                 multiline = {true}
-                                numberOfLines = {5}
+                                numberOfLines = {3}
                                 maxlenght={5000}
                             />
                             <Text></Text>
@@ -124,11 +133,10 @@ class ForumSingleModal extends Component {
                             />
                             <Text></Text>
                             <Text style={styles.text}>{this.props.sujet}</Text>
-                            <ScrollView>
                                 {list}
-                            </ScrollView>
                         </View>
                     </View>
+                    </ScrollView>
                 </Modal> 
             </View>
         )
