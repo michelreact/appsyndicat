@@ -104,7 +104,7 @@ class ForumSingleModal extends Component {
                     visible = { this.props.afficherSingleModal }
                     onRequestClose={() => {
                     }}> 
-                    <ScrollView>
+                    <ScrollView keyboardShouldPersistTaps = "always">
                     <View>
                         { /* FERMER MODAL */ }
                         <TouchableOpacity
